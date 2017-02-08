@@ -42,10 +42,15 @@ function fixHead($compile, $window) {
       scrollContainer.parent()[0].insertBefore(table.clone.append(header.clone)[0], scrollContainer[0]);
       
       scrollContainer.on('scroll', function () {
-        // use CSS transforms to move the cloned header when the table is scrolled horizontally
-        header.clone.css('transform', 'translate3d(' + -(scrollContainer.prop('scrollLeft')) + 'px, 0, 0)');
+        handleScroll();
       });
       
+      function handleScroll(){
+          // use CSS transforms to move the cloned header when the table is scrolled horizontally
+          //header.clone.css('transform', 'translate3d(' + -(scrollContainer.prop('scrollLeft')) + 'px, 0, 0)');
+          /* we are using h-scroll and this is causing everything to be 1px off */
+          header.clone.css('transform', 'translate3d(' + '' + '-1px, 0, 0)');
+      }
       function cells() {
         return header.clone.find('th').length;
       }
@@ -107,6 +112,8 @@ function fixHead($compile, $window) {
             clone.remove();
           });
         });
+        
+        handleScroll();
       }
       
       scope.$watch(cells, updateCells);
